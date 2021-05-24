@@ -1,0 +1,2 @@
+rootProject.name = "User Authentication With Image"
+include ':app'

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "953601387033",
+    "project_id": "user-authentication-with-image",
+    "storage_bucket": "user-authentication-with-image.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:953601387033:android:15c28a92e0de50a0c6d888",
+        "android_client_info": {
+          "package_name": "com.example.userauthenticationwithimage"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "953601387033-5rhia4mq6jgql84ggna2m37f312iesvj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQ7crNiUjD5mtx8sf-JVvShbw1dsbVjKo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "953601387033-5rhia4mq6jgql84ggna2m37f312iesvj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
