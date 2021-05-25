@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     public void userSignUp(View view) {
         progressBar.setVisibility(View.VISIBLE);
         String email = userEmail.getEditText().getText().toString();
-        String pass = userEmail.getEditText().getText().toString();
+        String pass = userPassword.getEditText().getText().toString();
 
         mAuth = FirebaseAuth.getInstance();
 
