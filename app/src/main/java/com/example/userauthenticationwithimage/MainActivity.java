@@ -3,6 +3,7 @@ package com.example.userauthenticationwithimage;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -33,6 +34,10 @@ public class MainActivity extends AppCompatActivity {
         userPassword = findViewById(R.id.pwd);
         progressBar = findViewById(R.id.progressBar);
 
+    }
+
+    public void gotoLogin(View view) {
+        startActivity(new Intent(MainActivity.this, Login.class));
     }
 
     public void userSignUp(View view) {
