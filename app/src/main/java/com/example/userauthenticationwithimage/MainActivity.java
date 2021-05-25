@@ -43,27 +43,32 @@ public class MainActivity extends AppCompatActivity {
     public void userSignUp(View view) {
         progressBar.setVisibility(View.VISIBLE);
         String email = userEmail.getEditText().getText().toString();
-        String pass = userEmail.getEditText().getText().toString();
+        String pass = userPassword.getEditText().getText().toString();
 
         mAuth = FirebaseAuth.getInstance();
 
-        mAuth.createUserWithEmailAndPassword(email, pass)
-                .addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()){
-                            progressBar.setVisibility(View.INVISIBLE);
-                            userEmail.getEditText().setText("");
-                            userPassword.getEditText().setText("");
-                            Toast.makeText(MainActivity.this, "Registered Successfully", Toast.LENGTH_SHORT).show();
+        if(!email.isEmpty() && pass.length()>=5) {
+            mAuth.createUserWithEmailAndPassword(email, pass)
+                    .addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                progressBar.setVisibility(View.INVISIBLE);
+                                userEmail.getEditText().setText("");
+                                userPassword.getEditText().setText("");
+                                Toast.makeText(MainActivity.this, "Registered Successfully", Toast.LENGTH_SHORT).show();
+                            } else {
+                                progressBar.setVisibility(View.INVISIBLE);
+                                userEmail.getEditText().setText("");
+                                userPassword.getEditText().setText("");
+                                Toast.makeText(MainActivity.this, "Process Error", Toast.LENGTH_SHORT).show();
+                            }
                         }
-                        else {
-                            progressBar.setVisibility(View.INVISIBLE);
-                            userEmail.getEditText().setText("");
-                            userPassword.getEditText().setText("");
-                            Toast.makeText(MainActivity.this, "Process Error", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+                    });
+        }
+        else{
+            progressBar.setVisibility(View.INVISIBLE);
+            Toast.makeText(getApplicationContext(),"Please input valid data",Toast.LENGTH_LONG).show();
+        }
     }
 }

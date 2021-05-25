@@ -19,8 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class Login extends AppCompatActivity {
 
-    TextInputLayout emailLogin, emailPass;
-    Button loginButton;
+    TextInputLayout emailLogin, emailLoginPass;
     ProgressBar progressBar;
     FirebaseAuth mAuth;
 
@@ -31,21 +30,24 @@ public class Login extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         emailLogin = findViewById(R.id.loginEmail);
-        emailPass = findViewById(R.id.loginPwd);
+        emailLoginPass = findViewById(R.id.loginPwd);
         progressBar = findViewById(R.id.loginProgressBar);
-        mAuth = FirebaseAuth.getInstance();
     }
 
     public void userLogin(View view) {
         progressBar.setVisibility(View.VISIBLE);
         String email = emailLogin.getEditText().getText().toString();
-        String pass = emailPass.getEditText().getText().toString();
+        String pass = emailLoginPass.getEditText().getText().toString();
 
+        mAuth = FirebaseAuth.getInstance();
+
+//        mAuth.signInWithEmailAndPassword(email, pass)
         mAuth.signInWithEmailAndPassword(email, pass)
                 .addOnCompleteListener(Login.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
+                            Toast.makeText(Login.this, "Yipieeeeeee", Toast.LENGTH_SHORT).show();
                             progressBar.setVisibility(View.INVISIBLE);
                             Intent intent = new Intent(Login.this, Dashboard.class);
                             intent.putExtra("email", mAuth.getCurrentUser().getEmail());
@@ -55,7 +57,7 @@ public class Login extends AppCompatActivity {
                         else {
                             progressBar.setVisibility(View.INVISIBLE);
                             emailLogin.getEditText().setText("");
-                            emailPass.getEditText().setText("");
+                            emailLoginPass.getEditText().setText("");
                             Toast.makeText(getApplicationContext(), "Invalid Credentials", Toast.LENGTH_SHORT).show();
                         }
                     }
