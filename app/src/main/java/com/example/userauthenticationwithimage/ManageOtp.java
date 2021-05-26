@@ -49,7 +49,7 @@ public class ManageOtp extends AppCompatActivity {
         verifyOtp = findViewById(R.id.verifyAndSignin);
 
         phnNumber = getIntent().getStringExtra("mobile");
-        Log.d("Mobile LOGIN", "Mobile Number is " + phnNumber);
+        Log.d("Mobile LOGIN","Mobile Number is "+phnNumber);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -58,11 +58,13 @@ public class ManageOtp extends AppCompatActivity {
         verifyOtp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (inputOtp.getText().toString().isEmpty()) {
+                if(inputOtp.getText().toString().isEmpty()){
                     Toast.makeText(ManageOtp.this, "OTP Cannot be empty", Toast.LENGTH_SHORT).show();
-                } else if (inputOtp.getText().toString().length() != 6) {
+                }
+                else if(inputOtp.getText().toString().length() != 6){
                     Toast.makeText(ManageOtp.this, "Invalid OTP", Toast.LENGTH_SHORT).show();
-                } else {
+                }
+                else{
                     PhoneAuthCredential credential = PhoneAuthProvider.getCredential(otpId, inputOtp.getText().toString());
                     signInWithPhoneAuthCredential(credential);
                 }
@@ -70,34 +72,13 @@ public class ManageOtp extends AppCompatActivity {
         });
     }
 
-    private void initiateOtp() {
+    private void initiateOtp(){
 //        PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
 
 //        PhoneAuthOptions.newBuilder(mAuth)
 //                .setPhoneNumber(phnNumber)
 //                .setTimeout(60L, TimeUnit.SECONDS)
 //                .setActivity(ManageOtp.this)
-        PhoneAuthProvider.getInstance().verifyPhoneNumber(phnNumber, 60L, TimeUnit.SECONDS, this,
-                new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-                    @Override
-                    public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
-                        Log.v("onVerificationCompleted", phoneAuthCredential.toString());
-                        signInWithPhoneAuthCredential(phoneAuthCredential);
-                    }
-
-                    @Override
-                    public void onVerificationFailed(@NonNull FirebaseException e) {
-                        Log.v("onVerificationFailed", e.getMessage());
-                        Toast.makeText(ManageOtp.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
-                        Log.v("onCodeSend", "otp is " + s);
-                        otpId = s;
-                    }
-                });
-
 //        PhoneAuthProvider.getInstance().verifyPhoneNumber(phnNumber, 60L, TimeUnit.SECONDS, this,
 //                new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 //                    @Override
@@ -118,6 +99,32 @@ public class ManageOtp extends AppCompatActivity {
 //                        otpId = s;
 //                    }
 //                });
+
+        //Another way to register user with mobile otp
+        PhoneAuthOptions options = PhoneAuthOptions.newBuilder(mAuth)
+                .setPhoneNumber(phnNumber)
+                .setTimeout(60L, TimeUnit.SECONDS)
+                .setActivity(ManageOtp.this)
+                .setCallbacks(new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+                    @Override
+                    public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
+                        Log.v("onVerificationCompleted", phoneAuthCredential.toString());
+                        signInWithPhoneAuthCredential(phoneAuthCredential);
+                    }
+
+                    @Override
+                    public void onVerificationFailed(@NonNull FirebaseException e) {
+                        Log.v("onVerificationFailed", e.getMessage());
+                        Toast.makeText(ManageOtp.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                    @Override
+                    public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+                        Log.v("onCodeSend", "otp is "+s);
+                        otpId = s;
+                    }
+                }).build();
+
+        PhoneAuthProvider.verifyPhoneNumber(options);
     }
 
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
