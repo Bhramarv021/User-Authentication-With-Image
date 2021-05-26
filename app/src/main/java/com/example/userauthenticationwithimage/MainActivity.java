@@ -66,4 +66,8 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
     }
+
+    public void processLoginWithMobileNumber(View view) {
+        startActivity(new Intent(MainActivity.this, MobileAuthentication.class));
+    }
 }
